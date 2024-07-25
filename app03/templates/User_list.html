@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>员工页面</title>
+    <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'plupins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-default">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">用户管理系统</span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/depart/list/">部门管理 <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="/user/list/1">员工管理</a></li>
+                <li><a href="/manager">管理员账户</a></li>
+                <li><a href="/consumer/list/1">客户管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{ request.session.info.name }}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div style="margin-bottom: 10px">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <div style="align-items: center;display: flex" onclick="clearSpanContent()">
+        <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
+        </span> 添加员工
+            </div>
+        </a>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input style="margin-top: 10px" class="form-inline" type="text" name="name"
+                       placeholder="输入姓名查询用户"/>
+                <button style="margin-left: 10px" class="btn-primary" type="submit">查询</button>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">员工列表</div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>余额</th>
+                <th>入职时间</th>
+                <th>部门</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in n1 %}
+                <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.name }}</td>
+                <td>{% if i.gender == 1 %}
+                    男
+                {% elif i.gender == 2 %}
+                    女
+                {% endif %}
+                </td>
+                <td>{{ i.age }}</td>
+                <td>{{ i.account }}</td>
+                <td>{{ i.time|date:"Y-m-d" }}</td>
+                <td>{{ i.depart.title }}</td>
+                <td>
+                    {% if i.id == 24 %}
+                        <span>永久数据</span>
+                    {% else %}
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#edit_modal"
+                           onclick="edit_data({{ i.id }},'user')">编辑</a>
+                        <a class="btn btn-danger" href="javascript:void(0);"
+                           onclick="confirmDelete({{ i.id }},'user')">删除</a></td>
+                    {% endif %}
+            {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+        <a href="/user/list/{{ nid|add:'-1' }}" class="btn btn-primary"
+           style="justify-content: center;align-content: center;display:flex;margin-top: 5px">上一页</a>
+        <a href="/user/list/{{ nid|add:'1' }}" class="btn btn-light"
+           style="justify-content: center;align-content: center;display:flex;margin-top:10px;background-color:
+        #9fcdff">下一页</a>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加员工</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form novalidate id="form">
+                        {% csrf_token %}
+                        {% for i in form %}
+                            <div class="form-group">
+                                <label>{{ i.label }}</label>
+                                {{ i }}
+                                <span style="color: #ac2925"></span>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="Add('user')">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑员工信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form novalidate id="edit_input">
+                        {% for i in form %}
+                            <div class="form-group">
+                                <label>{{ i.label }}</label>
+                                {{ i }}
+                                <span style="color: #ac2925"></span>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="update('user')">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery-3.6.0.js" %}"></script>
+<script src="{% static "plupins/bootstrap-3.4.1-dist/js/bootstrap.js" %}"></script>
+<script src="{% static '/plupins/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js' %}"></script>
+<script src="{% static '/plupins/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script>
+    $(function () {
+        document.querySelectorAll('#id_time').forEach(function (element) {
+            $(element).datetimepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '0',
+                language: 'zh-CN',
+                autoclose: true,
+                todayHighlight: true,
+                minView: "month",
+                endDate: new Date()
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "manager.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">
+            新建管理员
+        </h3></div>
+        <div class="panel-body">
+            <form method="post" novalidate>
+            {% csrf_token %}
+                {% for i in form %}
+                    <div class="form-group">
+                        <label>{{ i.label }}</label>
+                        {{ i }}
+                        <span style="color: #ac2925">{{ i.errors.0 }}</span>
+                    </div>
+                {% endfor %}
+                <br>
+                <input type="submit" class="btn btn-primary" style="margin-top: 20px;" value="保存">
+            </form>
+            </div>
+    </div>
+</div>
+{% endblock %}

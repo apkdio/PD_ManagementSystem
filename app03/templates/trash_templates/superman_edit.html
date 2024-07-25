@@ -1,0 +1,27 @@
+{% extends "manager.html" %}
+{% block content %}
+    <div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">
+            编辑管理员
+        </h3></div>
+        <div class="panel-body">
+            <form method="post" novalidate>
+            {% csrf_token %}
+                    <div class="form-group">
+                        {% for i in form %}
+                        <label>{{ i.label }}</label>
+                            <span style="color: #ac2925">{{ i.errors.0 }}</span>
+                            {{ i }}
+                        {% endfor %}
+                        <label style="margin-top:5px">新密码</label>
+                        <span style="color: #ac2925">{{ new_password_error }}</span>
+                        <input type="password" name="new_password" class="form-control" placeholder="新密码">
+                    </div>
+                <br>
+                <input type="submit" class="btn btn-primary" style="margin-top: 20px;" value="保存">
+            </form>
+            </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+body {
+    background-color: #efdfdf;
+}
+
+.account {
+    width: 400px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    box-shadow: 5px 5px 20px #aaa;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    padding: 20px 40px;
+    background-color: #e2e1e4;
+}
+
+.account h2 {
+    margin-top: 10px;
+    text-align: center;
+    background: linear-gradient(#2aabd2, #fd8d8d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p {
+    background: linear-gradient(#2aabd2, #5eb95e, #e38d13);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.fr {
+    float: right;
+    margin-top: 5px;
+    font-size: 12px;
+}

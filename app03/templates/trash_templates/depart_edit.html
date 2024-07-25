@@ -1,0 +1,17 @@
+{% extends 'depart_list.html' %}
+{% load static %}
+{% block content %}
+<form class="form-inline" method="post">
+    {% csrf_token %}
+    <div class="container form-group">
+        <label for="exampleInputName2">部门修改</label>
+        <br>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="exampleInputName2" placeholder={{ n1.title }}>
+            <button type="submit" class="btn btn-default">保存</button>
+        </form>
+    </div>
+</form>
+
+{% endblock %}

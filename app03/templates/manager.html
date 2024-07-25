@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员列表</title>
+    <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-default">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">用户管理系统</span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/depart/list/">部门管理 <span class="sr-only">(current)</span></a></li>
+                <li><a href="/user/list/1">员工管理</a></li>
+                <li class="active"><a href="/manager">管理员账户</a></li>
+                <li><a href="/consumer/list/1">客户管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{ request.session.info.name }}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <div style="align-items: center;display: flex">
+        <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
+        </span> 添加管理员
+                </div>
+            </a></div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">管理员列表</div>
+
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>管理员名称</th>
+                    <th>管理员账户</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in data %}
+                    <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>
+                        {% if i.id == 1 %}
+                            <span class="text-danger">此数据无法更改</span>
+                        {% else %}
+                            <a class="btn btn-primary" href="" onclick="manager_edit({{ i.id }}) "
+                               data-toggle="modal" data-target="#edit_modal">编辑</a>
+                            <a class="btn btn-danger" href="javascript:void(0);"
+                               onclick="confirmDelete({{ i.id }},'manager')">删除</a></td>
+                        {% endif %}
+                {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加管理员</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <form novalidate id="form">
+                            {% csrf_token %}
+                            {% for i in form %}
+                                <div class="form-group">
+                                    <label>{{ i.label }}</label>
+                                    {{ i }}
+                                    <span style="color: #ac2925"></span>
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                    <span style="color: #ac2925"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="Add()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">编辑管理员</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <form novalidate id="form_edit">
+                            {% for i in form_edit %}
+                                <div class="form-group">
+                                    <label>{{ i.label }}</label>
+                                    {{ i }}
+                                    <span style="color: #ac2925"></span>
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="update()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/common.js' %}"></script>
+    <script>
+        fieldElement = document.getElementById(`id_confirm_password`);
+
+        function Add() {
+            const form = document.getElementById("form");
+            const data = new FormData(form);
+            const password = document.getElementById("id_password").value
+            const confirm_password = document.getElementById("id_confirm_password").value
+            if (password === confirm_password) {
+                fieldElement.nextElementSibling.innerHTML = "",
+                    fetch('/manager/add/', {
+                        method: 'POST',
+                        body: data
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                                if (data.state) {
+                                    alert("添加成功!");
+                                    window.location.reload();
+                                } else {
+                                    for (const [field, messages] of Object.entries(data.error)) {
+                                        const fieldElement = document.getElementById(`id_${field}`);
+                                        const errorSpan = fieldElement.nextElementSibling;
+                                        errorSpan.innerHTML = '';
+                                        errorSpan.innerHTML = messages;
+                                    }
+                                }
+                            }
+                        )
+            } else {
+                const errorSpan = fieldElement.nextElementSibling;
+                errorSpan.innerHTML = "";
+                errorSpan.innerHTML = "两次密码不一致!";
+            }
+        }
+    </script>
+    <script>
+        leg
+        temp = null;
+        password = null;
+        confirm_password = null;
+        new_password = null;
+
+        function manager_edit(id) {
+            password = document.querySelectorAll("#id_password")[1]
+            confirm_password = document.querySelectorAll("#id_confirm_password")[1]
+            supuermanname = document.querySelectorAll("#id_name")[1]
+            new_password = document.getElementById("id_new_password")
+            supuermanname.nextElementSibling.innerHTML = ""
+            password.nextElementSibling.innerHTML = ""
+            confirm_password.nextElementSibling.innerHTML = ""
+            new_password.nextElementSibling.innerHTML = ""
+            password.value = ""
+            confirm_password.value = ""
+            new_password.value = ""
+            temp = id;
+            fetch("/manager/" + id + "/edit", {
+                method: "GET"
+            })
+                .then(response => response.json())
+                .then(data => {
+                    for (const name in data) {
+                        const tag = `id_${name}`;
+                        const elements = document.querySelectorAll(`#${tag}`);
+                        const secondElement = elements[1];
+                        secondElement.value = data[name];
+                    }
+                })
+        }
+
+        function update() {
+            password.nextElementSibling.innerHTML = ""
+            new_password.nextElementSibling.innerText = ""
+            confirm_password.nextElementSibling.innerText = ""
+            if (new_password.value === "") {
+                new_password.nextElementSibling.innerText = "这是个必填项!"
+            } else {
+                if (password.value === confirm_password.value) {
+                    if (new_password.value === password.value) {
+                        new_password.nextElementSibling.innerText = "新密码不能与旧密码相同!"
+                    } else {
+                        const form = document.getElementById("form_edit")
+                        const data = new FormData(form)
+                        fetch("/manager/" + temp + "/edit/", {
+                            method: "POST",
+                            body: data
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.state) {
+                                    alert("修改成功!");
+                                    window.location.reload();
+                                } else {
+                                    for (const [field, messages] of Object.entries(data.error)) {
+                                        const fieldElement = document.querySelectorAll(`#id_${field}`)[1];
+                                        const errorSpan = fieldElement.nextElementSibling;
+                                        errorSpan.innerHTML = '';
+                                        errorSpan.innerHTML = messages;
+                                    }
+                                }
+                            })
+                    }
+                } else {
+                    confirm_password.nextElementSibling.innerText = "两次密码不一致!"
+                }
+            }
+        }
+    </script>
+{% endblock %}
+<script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+<!-- bootstrap版本要和jQuery版本兼容-->
+<script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
+
+</body>
+</html>

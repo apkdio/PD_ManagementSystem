@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">新建用户</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}<!--<不使用浏览器页面的表单验证>-->
+                    {% for i in form %}
+                        <div class="form-group" >
+                        <label>{{ i.label }}</label>
+                            {{i}}
+                        <span style="color: #ac2925">{{ i.errors.0 }}</span>
+                    </div>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" placeholder="提交">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+<script src="{% static '/plupins/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js' %}"></script>
+<script src="{% static '/plupins/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+<script>
+    $(function (){
+        $('#id_time').datetimepicker({
+            format:'yyyy-mm-dd',
+            startDate:'0',
+            language:'zh-CN',
+            autoclose:true,
+            todayHighlight:true,
+            minView:"month",
+            endDate:new Date()
+        });
+    })
+</script>
+{% endblock %}

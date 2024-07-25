@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎</title>
+    <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="../../static/css/login.css">
+</head>
+<body>
+<div class="account">
+    <h2>用户登录</h2>
+    <p id="hitokoto" style="padding: 0;margin-top:20px;font-family: 方正粗圆_GBK;font-size:large;"></p>
+    <p id="from" align="right" style="font-family: 黑体;font-size:larger;font-weight: bold"></p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label>用户名</label>
+            {{ form.name }}
+            <span style="color: red">{{ form.name.errors.0 }}</span>
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            {{ form.password }}
+            <span style="color: red">{{ form.password.errors.0 }}</span>
+        </div>
+        <div class="form-group">
+            <label for="id_code">图片验证码(不区分大小写)</label>
+            <div class="row">
+                <div class="col-xs-7">
+                    {{ form.code }}
+                    <span style="color: red">{{ form.code.errors.0 }}</span>
+                </div>
+                <div class="col-xs-5">
+                    <img id="code_img" src="{% url 'code' %}" onclick="refreshCaptcha()" alt="验证码已过期">
+                    <label class="fr">点击刷新验证码</label>
+                    <!--从urls文件中对name为code的url发起请求-->
+                </div>
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="登录" class="btn btn-primary" style="width: 320px">
+    </form>
+</div>
+<script>
+    function refreshCaptcha() {
+        var captchaImage = document.getElementById('code_img');
+        captchaImage.src = "{% url 'code' %}?t=" + new Date().getTime();
+    }
+    setInterval(function (){
+        document.getElementById("code_img").src=""
+    },60000)
+</script>
+<script>
+        fetch('https://v1.hitokoto.cn/')
+            .then(response => response.json())
+            .then(data => {
+                const hitokoto = document.getElementById('hitokoto')
+                hitokoto.innerText = data.hitokoto
+                const from = document.getElementById('from')
+                from.innerText = "《" + data.from + "》"
+            })
+            .catch(console.error)
+    </script>
+</body>
+</html>

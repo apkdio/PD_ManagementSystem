@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>客户列表</title>
+    <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-default">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">用户管理系统</span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/depart/list/">部门管理 <span class="sr-only">(current)</span></a></li>
+                <li><a href="/user/list/1">员工管理</a></li>
+                <li><a href="/manager">管理员账户</a></li>
+                <li class="active"><a href="/consumer/list/1">客户管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{ request.session.info.name }}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <div style="align-items: center;display: flex" onclick="clearSpanContent()">
+        <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
+        </span> 添加客户
+                </div>
+            </a>
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <input style="margin-top: 10px" class="form-inline" type="text" name="name"
+                           placeholder="输入姓名查询用户"/>
+                    <button style="margin-left: 10px" class="btn-primary" type="submit">查询</button>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">客户列表</div>
+
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>客户姓名</th>
+                    <th>电话</th>
+                    <th>余额</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in n1 %}
+                    <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.number }}</td>
+                    <td>{{ i.money }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer')"
+                           data-toggle="modal" data-target="#edit_modal">编辑</a>
+                        <a class="btn btn-danger" href="javascript:void(0);"
+                           onclick="confirmDelete({{ i.id }},'consumer')">删除</a></td>
+                {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+            <a href="/consumer/list/{{ nid|add:'-1' }}" class="btn btn-primary"
+               style="justify-content: center;align-content: center;display:flex;margin-top: 5px">上一页</a>
+            <a href="/consumer/list/{{ nid|add:'1' }}" class="btn btn-light"
+               style="justify-content: center;align-content: center;display:flex;margin-top:10px;background-color:
+        #9fcdff">下一页</a>
+        </div>
+    </div>
+{% endblock %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        ><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加客户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form novalidate id="form">
+                        {% csrf_token %}
+                        {% for i in form %}
+                            <div class="form-group">
+                                <label>{{ i.label }}</label>
+                                {{ i }}
+                                <span style="color: #ac2925"></span>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="Add('consumer')">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑客户信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form novalidate id="edit_input">
+                        {% for i in form %}
+                            <div class="form-group">
+                                <label>{{ i.label }}</label>
+                                {{ i }}
+                                <span style="color: #ac2925"></span>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="update('consumer')">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/common.js" %}"></script>
+<script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+<!-- bootstrap版本要和jQuery版本兼容-->
+<script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
+
+</body>
+</html>
