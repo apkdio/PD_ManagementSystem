@@ -8,7 +8,6 @@ from app03.models import departure
 
 
 def depart_list(request):
-    print(123)
     # info=request.session["info"]["name"] 将登录的用户展现在前端
     departs = departure.objects.all()
     return render(request, "depart_list.html", {"n1": departs})
@@ -17,15 +16,17 @@ def depart_list(request):
 @csrf_exempt
 def depart_add(request):
     data = json.loads(request.body.decode('utf-8'))
-    title = data.get("name")
-    if departure.objects.filter(title=title).exists():
-        return JsonResponse({"state": False, "error": "部门已存在!"})
-    departure.objects.create(title=title)
-    return JsonResponse({"state": True})
-
+    if data.get("name"):
+        title = data.get("name")
+        if departure.objects.filter(title=title).exists():
+            return JsonResponse({"state": False, "error": "部门已存在!"})
+        departure.objects.create(title=title)
+        return JsonResponse({"state": True})
+    else:
+        return JsonResponse({"state": False},status=403)
 
 @csrf_exempt
-def depart_delete(request,nid):
+def depart_delete(request, nid):
     if nid == 27:
         return JsonResponse({"state": False}, status=403)
     departure.objects.filter(id=nid).delete()
