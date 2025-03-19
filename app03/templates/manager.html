@@ -5,6 +5,26 @@
     <meta charset="UTF-8">
     <title>管理员列表</title>
     <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+    {% csrf_token %}
+    <script>
+        // 通过 JavaScript 获取 CSRF 令牌
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');  // 获取 CSRF 令牌
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -43,216 +63,225 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-    <div class="container">
-        <div style="margin-bottom: 10px">
-            <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                <div style="align-items: center;display: flex">
+<div class="container">
+    <div style="margin-bottom: 10px">
+        <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <div style="align-items: center;display: flex">
         <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
         </span> 添加管理员
-                </div>
-            </a></div>
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">管理员列表</div>
+            </div>
+        </a></div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">管理员列表</div>
 
-            <!-- Table -->
-            <table class="table table-bordered">
-                <thead>
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>管理员名称</th>
+                <th>管理员账户</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in data %}
                 <tr>
-                    <th>管理员名称</th>
-                    <th>管理员账户</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for i in data %}
-                    <tr>
-                    <td>{{ i.id }}</td>
-                    <td>{{ i.name }}</td>
-                    <td>
-                        {% if i.id == 1 %}
-                            <span class="text-danger">默认管理员账户，无法更改！</span>
-                        {% else %}
-                            <a class="btn btn-primary" href="" onclick="manager_edit({{ i.id }}) "
-                               data-toggle="modal" data-target="#edit_modal">编辑</a>
-                            <a class="btn btn-danger" href="javascript:void(0);"
-                               onclick="confirmDelete({{ i.id }},'manager')">删除</a></td>
-                        {% endif %}
-                {% endfor %}
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                <td>{{ i.id }}</td>
+                <td>{{ i.name }}</td>
+                <td>
+                    {% if i.id == 1 %}
+                        <span class="text-danger">默认管理员账户，无法更改！</span>
+                    {% else %}
+                        <a class="btn btn-primary" href="" onclick="manager_edit({{ i.id }}) "
+                           data-toggle="modal" data-target="#edit_modal">编辑</a>
+                        <a class="btn btn-danger" href="javascript:void(0);"
+                           onclick="confirmDelete({{ i.id }},'manager',csrftoken)">删除</a></td>
+                    {% endif %}
+            {% endfor %}
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加管理员</h4>
-                </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加管理员</h4>
+            </div>
+            <div class="modal-body">
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <form novalidate id="form">
-                            {% csrf_token %}
-                            {% for i in form %}
-                                <div class="form-group">
-                                    <label>{{ i.label }}</label>
-                                    {{ i }}
-                                    <span style="color: #ac2925"></span>
-                                </div>
-                            {% endfor %}
-                        </form>
-                    </div>
-                    <span style="color: #ac2925"></span>
+                    <form novalidate id="form">
+                        {% for i in form %}
+                            <div class="form-group">
+                                <label>{{ i.label }}</label>
+                                {{ i }}
+                                <span style="color: #ac2925"></span>
+                            </div>
+                        {% endfor %}
+                    </form>
                 </div>
+                <span style="color: #ac2925"></span>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="Add()">保存</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="Add()">保存</button>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">编辑管理员</h4>
-                </div>
+</div>
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑管理员</h4>
+            </div>
+            <div class="modal-body">
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <form novalidate id="form_edit">
-                            {% for i in form_edit %}
-                                <div class="form-group">
-                                    <label>{{ i.label }}</label>
-                                    {{ i }}
-                                    <span style="color: #ac2925"></span>
-                                </div>
-                            {% endfor %}
-                        </form>
-                    </div>
+                    <form novalidate id="form_edit">
+                        {% for i in form_edit %}
+                            <div class="form-group">
+                                <label>{{ i.label }}</label>
+                                {{ i }}
+                                <span style="color: #ac2925"></span>
+                            </div>
+                        {% endfor %}
+                    </form>
                 </div>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="update()">保存</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="update()">保存</button>
             </div>
         </div>
     </div>
-    <script src="{% static 'js/common.js' %}"></script>
-    <script>
-        fieldElement = document.getElementById(`id_confirm_password`);
+</div>
+<script src="{% static 'js/common.js' %}"></script>
+<script>
+    fieldElement = document.getElementById(`id_confirm_password`);
 
-        function Add() {
-            const form = document.getElementById("form");
-            const data = new FormData(form);
-            const password = document.getElementById("id_password").value
-            const confirm_password = document.getElementById("id_confirm_password").value
-            if (password === confirm_password) {
-                fieldElement.nextElementSibling.innerHTML = "",
-                    fetch('/manager/add/', {
-                        method: 'POST',
+    function Add() {
+        const form = document.getElementById("form");
+        const data = new FormData(form);
+        console.log(form)
+        const password = document.getElementById("id_password").value
+        const confirm_password = document.getElementById("id_confirm_password").value
+        if (password === confirm_password) {
+            fieldElement.nextElementSibling.innerHTML = ""
+                fetch('/manager/add/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: data
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                            if (data.state) {
+                                alert("添加成功!");
+                                window.location.reload();
+                            } else {
+                                for (const [field, messages] of Object.entries(data.error)) {
+                                    const fieldElement = document.getElementById(`id_${field}`);
+                                    const errorSpan = fieldElement.nextElementSibling;
+                                    errorSpan.innerHTML = '';
+                                    errorSpan.innerHTML = messages;
+                                }
+                            }
+                        }
+                    )
+        } else {
+            const errorSpan = fieldElement.nextElementSibling;
+            errorSpan.innerHTML = "";
+            errorSpan.innerHTML = "两次密码不一致!";
+        }
+    }
+</script>
+<script>
+    leg
+    temp = null;
+    password = null;
+    confirm_password = null;
+    new_password = null;
+
+    function manager_edit(id) {
+        password = document.querySelectorAll("#id_password")[1]
+        confirm_password = document.querySelectorAll("#id_confirm_password")[1]
+        supuermanname = document.querySelectorAll("#id_name")[1]
+        new_password = document.getElementById("id_new_password")
+        supuermanname.nextElementSibling.innerHTML = ""
+        password.nextElementSibling.innerHTML = ""
+        confirm_password.nextElementSibling.innerHTML = ""
+        new_password.nextElementSibling.innerHTML = ""
+        password.value = ""
+        confirm_password.value = ""
+        new_password.value = ""
+        temp = id;
+        fetch("/manager/" + id + "/edit", {
+            method: "GET",
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                for (const name in data) {
+                    const tag = `id_${name}`;
+                    const elements = document.querySelectorAll(`#${tag}`);
+                    const secondElement = elements[1];
+                    secondElement.value = data[name];
+                }
+            })
+    }
+
+    function update() {
+        password.nextElementSibling.innerHTML = ""
+        new_password.nextElementSibling.innerText = ""
+        confirm_password.nextElementSibling.innerText = ""
+        if (new_password.value === "") {
+            new_password.nextElementSibling.innerText = "这是个必填项!"
+        } else {
+            if (password.value === confirm_password.value) {
+                if (new_password.value === password.value) {
+                    new_password.nextElementSibling.innerText = "新密码不能与旧密码相同!"
+                } else {
+                    const form = document.getElementById("form_edit")
+                    const data = new FormData(form)
+                    fetch("/manager/" + temp + "/edit/", {
+                        method: "POST",
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                        },
                         body: data
                     })
                         .then(response => response.json())
                         .then(data => {
-                                if (data.state) {
-                                    alert("添加成功!");
-                                    window.location.reload();
-                                } else {
-                                    for (const [field, messages] of Object.entries(data.error)) {
-                                        const fieldElement = document.getElementById(`id_${field}`);
-                                        const errorSpan = fieldElement.nextElementSibling;
-                                        errorSpan.innerHTML = '';
-                                        errorSpan.innerHTML = messages;
-                                    }
+                            if (data.state) {
+                                alert("修改成功!");
+                                window.location.reload();
+                            } else {
+                                for (const [field, messages] of Object.entries(data.error)) {
+                                    const fieldElement = document.querySelectorAll(`#id_${field}`)[1];
+                                    const errorSpan = fieldElement.nextElementSibling;
+                                    errorSpan.innerHTML = '';
+                                    errorSpan.innerHTML = messages;
                                 }
                             }
-                        )
-            } else {
-                const errorSpan = fieldElement.nextElementSibling;
-                errorSpan.innerHTML = "";
-                errorSpan.innerHTML = "两次密码不一致!";
-            }
-        }
-    </script>
-    <script>
-        leg
-        temp = null;
-        password = null;
-        confirm_password = null;
-        new_password = null;
-
-        function manager_edit(id) {
-            password = document.querySelectorAll("#id_password")[1]
-            confirm_password = document.querySelectorAll("#id_confirm_password")[1]
-            supuermanname = document.querySelectorAll("#id_name")[1]
-            new_password = document.getElementById("id_new_password")
-            supuermanname.nextElementSibling.innerHTML = ""
-            password.nextElementSibling.innerHTML = ""
-            confirm_password.nextElementSibling.innerHTML = ""
-            new_password.nextElementSibling.innerHTML = ""
-            password.value = ""
-            confirm_password.value = ""
-            new_password.value = ""
-            temp = id;
-            fetch("/manager/" + id + "/edit", {
-                method: "GET"
-            })
-                .then(response => response.json())
-                .then(data => {
-                    for (const name in data) {
-                        const tag = `id_${name}`;
-                        const elements = document.querySelectorAll(`#${tag}`);
-                        const secondElement = elements[1];
-                        secondElement.value = data[name];
-                    }
-                })
-        }
-
-        function update() {
-            password.nextElementSibling.innerHTML = ""
-            new_password.nextElementSibling.innerText = ""
-            confirm_password.nextElementSibling.innerText = ""
-            if (new_password.value === "") {
-                new_password.nextElementSibling.innerText = "这是个必填项!"
-            } else {
-                if (password.value === confirm_password.value) {
-                    if (new_password.value === password.value) {
-                        new_password.nextElementSibling.innerText = "新密码不能与旧密码相同!"
-                    } else {
-                        const form = document.getElementById("form_edit")
-                        const data = new FormData(form)
-                        fetch("/manager/" + temp + "/edit/", {
-                            method: "POST",
-                            body: data
                         })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.state) {
-                                    alert("修改成功!");
-                                    window.location.reload();
-                                } else {
-                                    for (const [field, messages] of Object.entries(data.error)) {
-                                        const fieldElement = document.querySelectorAll(`#id_${field}`)[1];
-                                        const errorSpan = fieldElement.nextElementSibling;
-                                        errorSpan.innerHTML = '';
-                                        errorSpan.innerHTML = messages;
-                                    }
-                                }
-                            })
-                    }
-                } else {
-                    confirm_password.nextElementSibling.innerText = "两次密码不一致!"
                 }
+            } else {
+                confirm_password.nextElementSibling.innerText = "两次密码不一致!"
             }
         }
-    </script>
+    }
+</script>
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
 

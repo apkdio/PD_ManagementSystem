@@ -7,6 +7,26 @@
     <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
     <link rel="stylesheet"
           href="{% static 'plupins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css' %}">
+    {% csrf_token %}
+    <script>
+        // 通过 JavaScript 获取 CSRF 令牌
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -74,7 +94,7 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th>年龄</th>
-                <th>余额</th>
+                <th>月薪</th>
                 <th>入职时间</th>
                 <th>部门</th>
                 <th>操作</th>
@@ -94,15 +114,21 @@
                 <td>{{ i.age }}</td>
                 <td>{{ i.account }}</td>
                 <td>{{ i.time|date:"Y-m-d" }}</td>
-                <td>{{ i.depart.title }}</td>
+                <td>
+                    {% if i.depart.title %}
+                        {{ i.depart.title }}
+                    {% else %}
+                        <span style="color: #ff0800">未设置部门</span>
+                    {% endif %}
+                </td>
                 <td>
                     {% if i.id == 24 %}
                         <span>永久数据</span>
                     {% else %}
                         <a class="btn btn-primary" data-toggle="modal" data-target="#edit_modal"
-                           onclick="edit_data({{ i.id }},'user')">编辑</a>
+                           onclick="edit_data({{ i.id }},'user',csrftoken)">编辑</a>
                         <a class="btn btn-danger" href="javascript:void(0);"
-                           onclick="confirmDelete({{ i.id }},'user')">删除</a></td>
+                           onclick="confirmDelete({{ i.id }},'user',csrftoken)">删除</a></td>
                     {% endif %}
             {% endfor %}
             </tr>
@@ -126,7 +152,6 @@
             <div class="modal-body">
                 <div class="modal-body">
                     <form novalidate id="form">
-                        {% csrf_token %}
                         {% for i in form %}
                             <div class="form-group">
                                 <label>{{ i.label }}</label>
@@ -139,7 +164,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="Add('user')">保存</button>
+                <button type="button" class="btn btn-primary" onclick="Add('user',csrftoken)">保存</button>
             </div>
         </div>
     </div>
@@ -167,7 +192,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="update('user')">保存</button>
+                <button type="button" class="btn btn-primary" onclick="update('user',csrftoken)">保存</button>
             </div>
         </div>
     </div>

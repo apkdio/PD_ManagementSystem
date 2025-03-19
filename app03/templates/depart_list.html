@@ -5,6 +5,26 @@
     <meta charset="UTF-8">
     <title>部门列表</title>
     <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+    {% csrf_token %}
+    <script>
+        // 通过 JavaScript 获取 CSRF 令牌
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -43,162 +63,165 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-    <div class="container">
-        <div style="margin-bottom: 10px">
-            <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        <div style="align-items: center;display: flex">
+<div class="container">
+    <div style="margin-bottom: 10px">
+        <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <div style="align-items: center;display: flex">
         <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
-        </span>  添加部门
-                </div></a></div>
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">部门列表</div>
+        </span> 添加部门
+            </div>
+        </a></div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">部门列表</div>
 
-            <!-- Table -->
-            <table class="table table-bordered">
-                <thead>
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>部门名称</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in n1 %}
                 <tr>
-                    <th>ID</th>
-                    <th>部门名称</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for i in n1 %}
-                    <tr>
-                    <td>{{ i.id }}</td>
-                    <td>{{ i.title }}</td>
-                    <td>
-                        {% if i.id == 27 %}
-                            <span>常驻部门</span>
-                        {% else %}
-                            <a class="btn btn-primary" data-toggle="modal" data-target="#edit"
-                               onclick="depart_edit({{ i.id }})">编辑</a>
-                            <a class="btn btn-danger" onclick="confirmDelete({{ i.id }},'depart')">删除</a>
-                        {% endif %}</td>
-                {% endfor %}
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                <td>{{ i.id }}</td>
+                <td>{{ i.title }}</td>
+                <td>
+                    {% if i.id == 27 %}
+                        <span>常驻部门</span>
+                    {% else %}
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#edit"
+                           onclick="depart_edit({{ i.id }})">编辑</a>
+                        <a class="btn btn-danger" onclick="confirmDelete({{ i.id }},'depart',csrftoken)">删除</a>
+                    {% endif %}</td>
+            {% endfor %}
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加部门</h4>
-                </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加部门</h4>
+            </div>
+            <div class="modal-body">
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <input class="form-control" type="text" name="depart_name" id="depart_input"
-                               placeholder="输入部门名称">
-                        <span></span>
-                        <span style="color: #ac2925"></span>
-                    </div>
+                    <input class="form-control" type="text" name="depart_name" id="depart_input"
+                           placeholder="输入部门名称">
+                    <span></span>
+                    <span style="color: #ac2925"></span>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="Add()">保存</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="Add()">保存</button>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">编辑部门</h4>
-                </div>
+</div>
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑部门</h4>
+            </div>
+            <div class="modal-body">
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <input class="form-control" type="text" id="new_depart"
-                               placeholder="输入部门名称">
-                        <span style="color: #ac2925"></span>
-                    </div>
+                    <input class="form-control" type="text" id="new_depart"
+                           placeholder="输入部门名称">
+                    <span style="color: #ac2925"></span>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="update()">保存</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="update()">保存</button>
             </div>
         </div>
     </div>
-    <script src="{% static 'js/common.js' %}"></script>
-    <script>
-        function Add() {
-            const form = document.getElementById("depart_input");
-            const data = {"name": form.value};
-            console.log(data);
-            fetch('/depart/add/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' // 设置请求头
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
-                        if (data.state) {
-                            alert("添加成功!");
-                            window.location.reload();
-                        } else {
-                            console.log(data.error);
-                            const fieldElement = document.getElementById(`depart_input`);
-                            const errorSpan = fieldElement.nextElementSibling;
-                            errorSpan.innerHTML = '';
-                            errorSpan.innerHTML = data.error;
-                        }
-                    }
-                )
-        }
-    </script>
-    <script>
-        temp_id = null
-
-        function depart_edit(id) {
-            fetch("/depart/" + id + "/edit/", {
-                method: "GET",
-            })
-                .then(response => response.json())
-                .then(data => {
-                        if (data.state) {
-                            const text = data.depart_name
-                            const target = document.getElementById("new_depart")
-                            temp_id = id;
-                            target.placeholder = text;
-                        } else {
-                            alert("加载部门失败!");
-                            window.location.reload();
-                        }
-                    }
-                )
-        }
-
-        function update() {
-            const data = {"new_name": document.getElementById("new_depart").value}
-            fetch("/depart/" + temp_id + "/edit/", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
+</div>
+<script src="{% static 'js/common.js' %}"></script>
+<script>
+    function Add() {
+        const form = document.getElementById("depart_input");
+        const data = {"name": form.value};
+        fetch('/depart/add/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,  // 在请求头中添加 CSRF 令牌
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
                     if (data.state) {
-                        alert("修改成功!");
+                        alert("添加成功!");
                         window.location.reload();
                     } else {
-                        alert("修改失败!");
+                        console.log(data.error);
+                        const fieldElement = document.getElementById(`depart_input`);
+                        const errorSpan = fieldElement.nextElementSibling;
+                        errorSpan.innerHTML = '';
+                        errorSpan.innerHTML = data.error;
+                    }
+                }
+            )
+    }
+</script>
+<script>
+    temp_id = null
+
+    function depart_edit(id) {
+        fetch("/depart/" + id + "/edit/", {
+            method: "GET",
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                    if (data.state) {
+                        const text = data.depart_name
+                        const target = document.getElementById("new_depart")
+                        temp_id = id;
+                        target.placeholder = text;
+                    } else {
+                        alert("加载部门失败!");
                         window.location.reload();
                     }
-                })
-        }
-    </script>
+                }
+            )
+    }
+
+    function update() {
+        const data = {"new_name": document.getElementById("new_depart").value}
+        fetch("/depart/" + temp_id + "/edit/", {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.state) {
+                    alert("修改成功!");
+                    window.location.reload();
+                } else {
+                    alert("修改失败!");
+                    window.location.reload();
+                }
+            })
+    }
+</script>
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
 

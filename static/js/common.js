@@ -1,6 +1,11 @@
-function confirmDelete(id, url) {
+function confirmDelete(id, url, csrftoken) {
     if (confirm("确定要删除吗？")) {
-        fetch("/" + url + "/" + id + "/delete/")
+        fetch("/" + url + "/" + id + "/delete/", {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.state) {
@@ -13,12 +18,15 @@ function confirmDelete(id, url) {
     }
 }
 
-function Add(url) {
+function Add(url, csrftoken) {
     clearSpanContent()
     const form = document.getElementById("form");
     const data = new FormData(form);
     fetch('/' + url + '/add/', {
         method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,  // 在请求头中添加 CSRF 令牌
+        },
         body: data
     })
         .then(response => response.json())
@@ -54,10 +62,12 @@ function clearSpanContent() {
 {
     temp = null;
 
-    function edit_data(id,url) {
-        temp = id;
-        fetch("/"+url+"/" + id + "/edit/", {
-            method: "GET"
+    function edit_data(id, url,csrftoken) {
+        fetch("/" + url + "/" + id + "/edit/", {
+            method: "GET",
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
         })
             .then(response => response.json())
             .then(data => {
@@ -71,11 +81,14 @@ function clearSpanContent() {
             })
     }
 
-    function update(url) {
+    function update(url,csrftoken) {
         const tar = document.getElementById("edit_input");
         const data = new FormData(tar);
-        fetch("/" + url + "/" + temp + "/edit/", {
+        fetch("/" + url + "/" + id + "/edit/", {
             method: "POST",
+            headers: {
+            'X-CSRFToken': csrftoken,  // 在请求头中添加 CSRF 令牌
+        },
             body: data
         })
             .then(response => response.json())

@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from app03.models import userinfo
 from app03.view.forms import user
 
-@csrf_exempt
+
 def user_edit(request, nid):
     if nid == 24:
         return JsonResponse({"state": False}, status=403)
@@ -30,7 +30,7 @@ def user_edit(request, nid):
         return JsonResponse({"state": False, "error": form.errors})
 
 
-@csrf_exempt
+
 def user_add(request):
     form = user(data=request.POST)
     if form.is_valid():
@@ -43,7 +43,7 @@ def user_add(request):
         return JsonResponse({"state": False, "error": form.errors})
 
 
-@csrf_exempt
+
 def user_delete(request, nid):
     if nid == 24:
         return JsonResponse({"state": False}, status=404)

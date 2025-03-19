@@ -35,7 +35,7 @@ def consumer_list(request, nid):
     return render(request, "consumer_list.html", {"n1": page_data, "nid": nid, "form": form})
 
 
-@csrf_exempt
+
 def consumer_add(request):
     form = consumer(data=request.POST)
     if form.is_valid():
@@ -53,7 +53,7 @@ def consumer_delete(request, nid):
     return JsonResponse({"state": True})
 
 
-@csrf_exempt
+
 def consumer_edit(request, nid):
     if request.method == "GET":
         data = Consumer.objects.filter(id=nid).first()

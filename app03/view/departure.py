@@ -13,7 +13,7 @@ def depart_list(request):
     return render(request, "depart_list.html", {"n1": departs})
 
 
-@csrf_exempt
+
 def depart_add(request):
     data = json.loads(request.body.decode('utf-8'))
     if data.get("name"):
@@ -25,7 +25,7 @@ def depart_add(request):
     else:
         return JsonResponse({"state": False},status=403)
 
-@csrf_exempt
+
 def depart_delete(request, nid):
     if nid == 27:
         return JsonResponse({"state": False}, status=403)
@@ -33,7 +33,7 @@ def depart_delete(request, nid):
     return JsonResponse({"state": True})
 
 
-@csrf_exempt
+
 def depart_edit(request, nid):
     if request.method == "GET":
         obj = departure.objects.filter(id=nid).first()

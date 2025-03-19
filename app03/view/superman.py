@@ -15,7 +15,7 @@ def superman(request):
         return render(request, "manager.html", {"data": data, "form": form, "form_edit": form_edit})
 
 
-@csrf_exempt
+
 def superman_add(request):
     form = supermanager(data=request.POST)
     if not form.is_valid():
@@ -29,7 +29,6 @@ def superman_add(request):
     return JsonResponse({"state": True})
 
 
-@csrf_exempt
 def superman_edit(request, nid):
     if request.method == "GET":
         if not SuperManager.objects.filter(id=nid).first():
@@ -49,7 +48,7 @@ def superman_edit(request, nid):
     return JsonResponse({"state": False, "error": form.errors})
 
 
-@csrf_exempt
+
 def superman_delete(request, nid):
     if SuperManager.objects.filter(id=nid).first().name == "admin":
         return JsonResponse({"state": False}, status=403)

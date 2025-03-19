@@ -5,6 +5,25 @@
     <meta charset="UTF-8">
     <title>客户列表</title>
     <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
+    {% csrf_token %}
+    <script>
+        // 通过 JavaScript 获取 CSRF 令牌
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -82,10 +101,10 @@
                     <td>{{ i.number }}</td>
                     <td>{{ i.money }}</td>
                     <td>
-                        <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer')"
+                        <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer',csrftoken)"
                            data-toggle="modal" data-target="#edit_modal">编辑</a>
                         <a class="btn btn-danger" href="javascript:void(0);"
-                           onclick="confirmDelete({{ i.id }},'consumer')">删除</a></td>
+                           onclick="confirmDelete({{ i.id }},'consumer',csrftoken)">删除</a></td>
                 {% endfor %}
                 </tr>
                 </tbody>
@@ -109,7 +128,6 @@
             <div class="modal-body">
                 <div class="modal-body">
                     <form novalidate id="form">
-                        {% csrf_token %}
                         {% for i in form %}
                             <div class="form-group">
                                 <label>{{ i.label }}</label>
@@ -122,7 +140,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="Add('consumer')">保存</button>
+                <button type="button" class="btn btn-primary" onclick="Add('consumer',csrftoken)">保存</button>
             </div>
         </div>
     </div>
@@ -150,7 +168,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="update('consumer')">保存</button>
+                <button type="button" class="btn btn-primary" onclick="update('consumer',csrftoken)">保存</button>
             </div>
         </div>
     </div>

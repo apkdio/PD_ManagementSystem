@@ -129,4 +129,4 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://frp-net.top:44189', ]
+CSRF_TRUSTED_ORIGINS = ['https://frp-net.top:44189',"http://127.0.0.1:11434" ]
