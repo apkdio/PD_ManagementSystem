@@ -11,7 +11,7 @@ from app03.view.forms import manager
 
 def check_admin():
     if not SuperManager.objects.filter(name="admin").exists():
-        SuperManager.objects.create(name="admin", password=md5("admin"))
+        SuperManager.objects.create(id=1,name="admin", password=md5("admin"))
 
 
 def login(request):
@@ -26,7 +26,7 @@ def login(request):
     if form.is_valid() == False:
         return render(request, 'login.html', {"form": form})
     code = form.cleaned_data.pop('code')
-    form.cleaned_data["password"] = md5(form.cleaned_data["password"])
+    form.cleaned_data["password"] = md5(form.cleaned_data['password'])
     user = SuperManager.objects.filter(**form.cleaned_data).first()
     if code.upper() != request.session.get("img_code", " ").upper():
         form.add_error("code", "验证码错误!")

@@ -43,7 +43,6 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-{% block content %}
     <div class="container">
         <div style="margin-bottom: 10px">
             <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -72,7 +71,7 @@
                     <td>{{ i.name }}</td>
                     <td>
                         {% if i.id == 1 %}
-                            <span class="text-danger">此数据无法更改</span>
+                            <span class="text-danger">默认管理员账户，无法更改！</span>
                         {% else %}
                             <a class="btn btn-primary" href="" onclick="manager_edit({{ i.id }}) "
                                data-toggle="modal" data-target="#edit_modal">编辑</a>
@@ -145,8 +144,6 @@
             </div>
         </div>
     </div>
-{% endblock %}
-{% block js %}
     <script src="{% static 'js/common.js' %}"></script>
     <script>
         fieldElement = document.getElementById(`id_confirm_password`);
@@ -256,9 +253,7 @@
             }
         }
     </script>
-{% endblock %}
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
-<!-- bootstrap版本要和jQuery版本兼容-->
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
 
 </body>

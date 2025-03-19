@@ -61,7 +61,11 @@
                 const from = document.getElementById('from')
                 from.innerText = "《" + data.from + "》"
             })
-            .catch(console.error)
+            .catch(error => {
+        console.error(error);
+        const hitokoto = document.getElementById('hitokoto');
+        hitokoto.innerText = '好像出了一些小问题...';
+    })
     </script>
 </body>
 </html>

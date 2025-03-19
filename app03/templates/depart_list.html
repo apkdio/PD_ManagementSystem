@@ -43,7 +43,6 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-{% block content %}
     <div class="container">
         <div style="margin-bottom: 10px">
             <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -128,8 +127,6 @@
             </div>
         </div>
     </div>
-{% endblock %}
-{% block js %}
     <script src="{% static 'js/common.js' %}"></script>
     <script>
         function Add() {
@@ -202,9 +199,7 @@
                 })
         }
     </script>
-{% endblock %}
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
-<!-- bootstrap版本要和jQuery版本兼容-->
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
 
 </body>
