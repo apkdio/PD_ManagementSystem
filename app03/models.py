@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class departure(models.Model):
+class Departure(models.Model):
     title = models.CharField(verbose_name="部门", max_length=16)
 
     # verbose_name 是该元素在Django后台显示的名称,传输到model_form里作默认名称
@@ -11,7 +11,7 @@ class departure(models.Model):
         return self.title
 
 
-class userinfo(models.Model):
+class Userinfo(models.Model):
     name = models.CharField(verbose_name="姓名", max_length=20)
     password = models.CharField(verbose_name="密码", max_length=20)
     age = models.IntegerField(verbose_name="年龄")
@@ -20,7 +20,7 @@ class userinfo(models.Model):
     time = models.DateField(verbose_name="入职时间")
     """MySQL中的约束"""
     """以下语句中的on_delete是MySQL中的行为,与Django无关"""
-    depart = models.ForeignKey(verbose_name="部门", to="departure", null=True, blank=True,
+    depart = models.ForeignKey(verbose_name="部门", to="app03.Departure", null=True, blank=True,
                                on_delete=models.SET_NULL)  # 滞空处理,当外键被删除时自动设置成null
     # 还有一种级联方式,当外键的数据被删除时连带外键所在的数据一块删除,此时on_delete=models.CASCADE
     # to 表,to_field 表的某一列

@@ -2,18 +2,18 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from app03.models import userinfo
+from app03.models import Userinfo
 from app03.view.forms import user
 
 
 def user_edit(request, nid):
     if nid == 24:
         return JsonResponse({"state": False}, status=403)
-    if not userinfo.objects.filter(id=nid).first():
+    if not Userinfo.objects.filter(id=nid).first():
         return JsonResponse({"state": False}, status=404)
 
     if request.method == "GET":
-        obj = userinfo.objects.filter(id=nid).first()
+        obj = Userinfo.objects.filter(id=nid).first()
         return JsonResponse({"name": obj.name,
                              "password": obj.password,
                              "age": obj.age,
@@ -21,7 +21,7 @@ def user_edit(request, nid):
                              "time": obj.time,
                              "depart": obj.depart_id,
                              "gender":obj.gender})
-    instance = userinfo.objects.get(id=nid)
+    instance = Userinfo.objects.get(id=nid)
     form = user(data=request.POST,instance=instance)
     if form.is_valid():
         form.save()
@@ -47,7 +47,7 @@ def user_add(request):
 def user_delete(request, nid):
     if nid == 24:
         return JsonResponse({"state": False}, status=404)
-    userinfo.objects.filter(id=nid).delete()
+    Userinfo.objects.filter(id=nid).delete()
     return JsonResponse({"state": True})
 
 
@@ -59,7 +59,7 @@ def user_list(request, nid):
         else:
             start = int(nid - 1) * 8
             end = int(nid) * 8
-            all = userinfo.objects.all()[start:end]
+            all = Userinfo.objects.all()[start:end]
             try:
                 if all[0]:
                     pass
@@ -74,5 +74,5 @@ def user_list(request, nid):
                     pass  # 根据id匹配在另一张表的相应对象
             return render(request, "User_list.html", {"n1": all, "nid": nid, "form": form})
     name = request.POST.get("name")
-    page_data = userinfo.objects.filter(name=name)
+    page_data = Userinfo.objects.filter(name=name)
     return render(request, "User_list.html", {"n1": page_data, "nid": nid})

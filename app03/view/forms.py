@@ -1,14 +1,14 @@
 from django import forms
 
 from app03.models import Consumer
-from app03.models import userinfo
+from app03.models import Userinfo
 
 
 # 以下是一个modelform表单
 class user(forms.ModelForm):
     # name= forms.CharField(min_length=3,label="用户名") 对name添加条件验证
     class Meta:
-        model = userinfo
+        model = Userinfo
         fields = "__all__"
         # 如果只想让表单有一部分数据
         # fields=["name","age","gender"]
