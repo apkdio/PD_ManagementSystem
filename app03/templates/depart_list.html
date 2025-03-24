@@ -39,7 +39,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <span class="navbar-brand">用户管理系统</span>
+            <span class="navbar-brand">PD后台管理系统</span>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -90,13 +90,9 @@
                 <td>{{ i.id }}</td>
                 <td>{{ i.title }}</td>
                 <td>
-                    {% if i.id == 27 %}
-                        <span>常驻部门</span>
-                    {% else %}
                         <a class="btn btn-primary" data-toggle="modal" data-target="#edit"
                            onclick="depart_edit({{ i.id }})">编辑</a>
                         <a class="btn btn-danger" onclick="confirmDelete({{ i.id }},'depart',csrftoken)">删除</a>
-                    {% endif %}</td>
             {% endfor %}
             </tr>
             </tbody>

@@ -11,7 +11,9 @@ from app03.view.forms import manager
 
 def check_admin():
     if not SuperManager.objects.filter(name="admin").exists():
-        SuperManager.objects.create(id=1,name="admin", password=md5("admin"))
+        user = "admin"
+        password = "admin"
+        SuperManager.objects.create(id=1, name=user, password=md5(password))
 
 
 def login(request):

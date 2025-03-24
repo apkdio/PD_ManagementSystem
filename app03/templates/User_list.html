@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <span class="navbar-brand">用户管理系统</span>
+            <span class="navbar-brand">PD后台管理系统</span>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -122,14 +122,10 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if i.id == 24 %}
-                        <span>永久数据</span>
-                    {% else %}
                         <a class="btn btn-primary" data-toggle="modal" data-target="#edit_modal"
                            onclick="edit_data({{ i.id }},'user',csrftoken)">编辑</a>
                         <a class="btn btn-danger" href="javascript:void(0);"
                            onclick="confirmDelete({{ i.id }},'user',csrftoken)">删除</a></td>
-                    {% endif %}
             {% endfor %}
             </tr>
             </tbody>
