@@ -8,6 +8,7 @@
     <link rel="stylesheet"
           href="{% static 'plupins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css' %}">
     {% csrf_token %}
+    <script src="{% static 'js/common.js' %}"></script>
     <script>
         // 通过 JavaScript 获取 CSRF 令牌
         function getCookie(name) {
@@ -26,6 +27,7 @@
         }
 
         const csrftoken = getCookie('csrftoken');
+        const msg = {{ error }};
     </script>
 </head>
 <body>
@@ -101,36 +103,49 @@
             </tr>
             </thead>
             <tbody>
-            {% for i in n1 %}
+            {% if n1 == None %}
                 <tr>
-                <td>{{ i.id }}</td>
-                <td>{{ i.name }}</td>
-                <td>{% if i.gender == 1 %}
-                    男
-                {% elif i.gender == 2 %}
-                    女
-                {% endif %}
-                </td>
-                <td>{{ i.age }}</td>
-                <td>{{ i.account }}</td>
-                <td>{{ i.time|date:"Y-m-d" }}</td>
-                <td>
-                    {% if i.depart.title %}
-                        {{ i.depart.title }}
-                    {% else %}
-                        <span style="color: #ff0800">未设置部门</span>
+                {% for i in "1234567" %}
+                    <td style="color: #ff0800">无数据</td>
+                    {% endfor %}
+                    <td></td>
+                </tr>
+            {% else %}
+                {% for i in n1 %}
+                    <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{% if i.gender == 1 %}
+                        男
+                    {% elif i.gender == 2 %}
+                        女
                     {% endif %}
-                </td>
-                <td>
+                    </td>
+                    <td>{{ i.age }}</td>
+                    <td>{{ i.account }}</td>
+                    <td>{{ i.time|date:"Y-m-d" }}</td>
+                    <td>
+                        {% if i.depart.title %}
+                            {{ i.depart.title }}
+                        {% else %}
+                            <span style="color: #ff0800">未设置部门</span>
+                        {% endif %}
+                    </td>
+                    <td>
                         <a class="btn btn-primary" data-toggle="modal" data-target="#edit_modal"
                            onclick="edit_data({{ i.id }},'user',csrftoken)">编辑</a>
                         <a class="btn btn-danger" href="javascript:void(0);"
                            onclick="confirmDelete({{ i.id }},'user',csrftoken)">删除</a></td>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
             </tr>
             </tbody>
         </table>
-        <a href="/user/list/{{ nid|add:'-1' }}" class="btn btn-primary"
+        <a href="/user/list/{% if nid == 0 or nid == None %}
+{{ 1 }}
+{% else %}
+{{ nid|add:'-1' }}
+{% endif %}" class="btn btn-primary"
            style="justify-content: center;align-content: center;display:flex;margin-top: 5px">上一页</a>
         <a href="/user/list/{{ nid|add:'1' }}" class="btn btn-light"
            style="justify-content: center;align-content: center;display:flex;margin-top:10px;background-color:
@@ -197,7 +212,6 @@
 <script src="{% static "plupins/bootstrap-3.4.1-dist/js/bootstrap.js" %}"></script>
 <script src="{% static '/plupins/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js' %}"></script>
 <script src="{% static '/plupins/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
-<script src="{% static 'js/common.js' %}"></script>
 <script>
     $(function () {
         document.querySelectorAll('#id_time').forEach(function (element) {

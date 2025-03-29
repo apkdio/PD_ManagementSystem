@@ -20,7 +20,7 @@ def code_img():
     b = random.randint(0, 255)
     draw.text([x, y], str,
               fill=(r, g, b),
-              font=ImageFont.truetype("C:/Users/Administrator/PycharmProjects/hy.ttf", 20))
+              font=ImageFont.truetype("C:/Users/Administrator/PycharmProjects/example01/app03/middle_things/font/hy.ttf", 20))
     # 干扰点
     for i in range(60):
         draw.point((random.randint(0, 120), random.randint(0, 30)),

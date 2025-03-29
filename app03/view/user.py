@@ -54,7 +54,7 @@ def user_delete(request, nid):
 def user_list(request, nid):
     form = user()
     if request.method == "GET":
-        if nid == 0:
+        if nid <= 0:
             return redirect("/user/list/1")
         else:
             start = int(nid - 1) * 8
@@ -65,7 +65,7 @@ def user_list(request, nid):
                     pass
             except IndexError:
                 msg = "该页面不存在员工数据!"
-                return render(request, "error.html", {"error": msg})
+                return render(request, "User_list.html")
             for i in all:
                 try:
                     i.depart_id  # 获取数据库中的某个字符段

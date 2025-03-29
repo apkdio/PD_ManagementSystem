@@ -6,6 +6,7 @@
     <title>客户列表</title>
     <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
     {% csrf_token %}
+    <script src="{% static 'js/common.js' %}"></script>
     <script>
         // 通过 JavaScript 获取 CSRF 令牌
         function getCookie(name) {
@@ -22,7 +23,9 @@
             }
             return cookieValue;
         }
+
         const csrftoken = getCookie('csrftoken');
+        const msg = {{ error }};
     </script>
 </head>
 <body>
@@ -62,66 +65,81 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-    <div class="container">
-        <div style="margin-bottom: 10px">
-            <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                <div style="align-items: center;display: flex" onclick="clearSpanContent()">
+<div class="container">
+    <div style="margin-bottom: 10px">
+        <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <div style="align-items: center;display: flex" onclick="clearSpanContent()">
         <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
         </span> 添加客户
-                </div>
-            </a>
-            <div>
-                <form method="post">
-                    {% csrf_token %}
-                    <input style="margin-top: 10px" class="form-inline" type="text" name="name"
-                           placeholder="输入姓名查询用户"/>
-                    <button style="margin-left: 10px" class="btn-primary" type="submit">查询</button>
-                </form>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">客户列表</div>
-
-            <!-- Table -->
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>客户姓名</th>
-                    <th>电话</th>
-                    <th>余额</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for i in n1 %}
-                    <tr>
-                    <td>{{ i.id }}</td>
-                    <td>{{ i.name }}</td>
-                    <td>{{ i.number }}</td>
-                    <td>{{ i.money }}</td>
-                    <td>
-                        <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer',csrftoken)"
-                           data-toggle="modal" data-target="#edit_modal">编辑</a>
-                        <a class="btn btn-danger" href="javascript:void(0);"
-                           onclick="confirmDelete({{ i.id }},'consumer',csrftoken)">删除</a></td>
-                {% endfor %}
-                </tr>
-                </tbody>
-            </table>
-            <a href="/consumer/list/{{ nid|add:'-1' }}" class="btn btn-primary"
-               style="justify-content: center;align-content: center;display:flex;margin-top: 5px">上一页</a>
-            <a href="/consumer/list/{{ nid|add:'1' }}" class="btn btn-light"
-               style="justify-content: center;align-content: center;display:flex;margin-top:10px;background-color:
-        #9fcdff">下一页</a>
+        </a>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input style="margin-top: 10px" class="form-inline" type="text" name="name"
+                       placeholder="输入姓名查询用户"/>
+                <button style="margin-left: 10px" class="btn-primary" type="submit">查询</button>
+            </form>
         </div>
     </div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">客户列表</div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>客户姓名</th>
+                <th>电话</th>
+                <th>余额</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if n1 == None %}
+            <tr>
+            {% for i in "1234" %}
+                <td style="color: #ff0800">无数据</td>
+                {% endfor %}
+                <td></td>
+            </tr>
+            {% else %}
+            {% for i in n1 %}
+                <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.name }}</td>
+                <td>{{ i.number }}</td>
+                <td>{{ i.money }}</td>
+                <td>
+                    <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer',csrftoken)"
+                       data-toggle="modal" data-target="#edit_modal">编辑</a>
+                    <a class="btn btn-danger" href="javascript:void(0);"
+                       onclick="confirmDelete({{ i.id }},'consumer',csrftoken)">删除</a></td>
+            {% endfor %}
+            {% endif %}
+            </tr>
+            </tbody>
+        </table>
+        <a href="/consumer/list/
+{% if nid == 0 or nid == None %}
+{{ 1 }}
+{% else %}
+{{ nid|add:'-1' }}
+{% endif %}" class="btn btn-primary"
+           style="justify-content: center;align-content: center;display:flex;margin-top: 5px">上一页</a>
+        <a href="/consumer/list/{{ nid|add:'1' }}" class="btn btn-light"
+           style="justify-content: center;align-content: center;display:flex;margin-top:10px;background-color:
+        #9fcdff">下一页</a>
+    </div>
+</div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        ><span
+                ><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">添加客户</h4>
             </div>
@@ -173,7 +191,6 @@
         </div>
     </div>
 </div>
-<script src="{% static "js/common.js" %}"></script>
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
 <!-- bootstrap版本要和jQuery版本兼容-->
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>

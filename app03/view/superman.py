@@ -1,7 +1,5 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-
 from app03.middle_things.password import md5
 from app03.models import SuperManager
 from app03.view.forms import supermanager, supermanager_edit

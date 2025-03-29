@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 
 from app03.models import Consumer
 from app03.view.forms import consumer
@@ -9,7 +8,7 @@ from app03.view.forms import consumer
 def consumer_list(request, nid):
     form = consumer()
     if request.method == "GET":
-        if nid == 0:
+        if nid <= 0:
             return redirect("/consumer/list/1/")
         else:
             start = int(nid - 1) * 8
@@ -20,7 +19,7 @@ def consumer_list(request, nid):
                     pass
             except IndexError:
                 msg = "该页面不存在数据!"
-                return render(request, "error.html", {"error": msg})
+                return render(request, "consumer_list.html")
             for i in all:
                 try:
                     i.id  # 获取数据库中的某个字符段
