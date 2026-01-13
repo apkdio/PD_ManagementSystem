@@ -29,17 +29,17 @@
 ### 部署步骤
 部署步骤：
 1. 配置好相应环境。
-2. 解压PD管理系统.zip 至任意非中文路径文件夹。
+2. 解压`xxx.zip`至任意非中文路径文件夹（或者git clone）。
 3. 进入MySQL数据库创建相应的用户和数据库。
-4. 修改example01/setting.py内的数据库连接为本地MySQL数据库连接以及INITIAL_SETTING初始化条件。
-5. 进入example01文件夹，打开终端依次运行`python manage.py makemigrations app03`,`python manage.py migrate app03`进行数据库表迁移。（若执行迁移后数据库没有相对应的表，执行`python manage.py migrate --fake app03 zero`重置数据库迁移，然后再次执行上面两条命令）
+4. 修改`example01/setting.py`内的数据库连接为本地MySQL数据库连接以及`INITIAL_SETTING`初始化条件。
+5. 进入`example01`文件夹，打开终端依次运行`python manage.py makemigrations app03`,`python manage.py migrate app03`进行数据库表迁移。（若执行迁移后数据库没有相对应的表，执行`python manage.py migrate --fake app03 zero`重置数据库迁移，然后再次执行上面两条命令）
 6. 执行`python manage.py runserver 127.0.0.1:8000`等待系统启动。
 7. 进入浏览器使用`127.0.0.1:8000`访问系统。
 8. 因各浏览器请求端口不一致，若出现orbidden (Origin checking failed - http://127.0.0.1:xxxxx does not match any trusted origins.)错误，则需要将对应的ip添加到`setting.py`的`CSRF_TRUSTED_ORIGINS`选项中，
-如CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:11434"]，具体到端口
+如`CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:11434']` ,具体到端口
 
 
-默认账户为`setting.py`文件中INITIAL_SETTING 的username和password，具体如下
+默认账户为`setting.py`文件中`INITIAL_SETTING`的`username`和`password`，具体如下
 ```python
 INITIAL_SETTING = {
     "user": "admin", # 默认用户名
@@ -50,5 +50,5 @@ INITIAL_SETTING = {
     "normal_safe_password": "12345" # 用于重置密码的安全密码
 }
 ```
-如需部署到其他URL运行，则需要`setting.py`中CSRF_TRUSTED_ORIGINS和
-ALLOWED_HOSTS 存在相应IP或URL
+如需部署到其他URL运行，则需要`setting.py`中`CSRF_TRUSTED_ORIGINS`和
+`ALLOWED_HOSTS`存在相应IP或URL
