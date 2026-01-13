@@ -40,6 +40,7 @@
 
 
 默认账户为`setting.py`文件中INITIAL_SETTING 的username和password，具体如下
+```python
 INITIAL_SETTING = {
     "user": "admin", # 默认用户名
     "password": "admin", # 默认密码
@@ -48,5 +49,6 @@ INITIAL_SETTING = {
     "safe_password": "123456", # 安全密码，用于添加管理员和修改管理员
     "normal_safe_password": "12345" # 用于重置密码的安全密码
 }
+```
 如需部署到其他URL运行，则需要`setting.py`中CSRF_TRUSTED_ORIGINS和
 ALLOWED_HOSTS 存在相应IP或URL
