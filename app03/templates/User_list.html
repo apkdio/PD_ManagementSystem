@@ -8,9 +8,7 @@
     <link rel="stylesheet"
           href="{% static 'plupins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css' %}">
     {% csrf_token %}
-    <script src="{% static 'js/common.js' %}"></script>
     <script>
-        // 通过 JavaScript 获取 CSRF 令牌
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -27,12 +25,11 @@
         }
 
         const csrftoken = getCookie('csrftoken');
-        const msg = {{ error }};
     </script>
+    <script src="{% static 'js/common.js' %}"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
-
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -53,6 +50,9 @@
                 <li class="active"><a href="/user/list/1">员工管理</a></li>
                 <li><a href="/manager">管理员账户</a></li>
                 <li><a href="/consumer/list/1">客户管理</a></li>
+                {% if  request.session.info.depart  ==  manage_id %}
+                    <li><a href="/logging/all/1/null">日志管理</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -79,7 +79,7 @@
             <form method="post">
                 {% csrf_token %}
                 <input style="margin-top: 10px" class="form-inline" type="text" name="name"
-                       placeholder="输入姓名查询用户"/>
+                       placeholder="输入姓名查询员工"/>
                 <button style="margin-left: 10px" class="btn-primary" type="submit">查询</button>
             </form>
         </div>
@@ -103,15 +103,12 @@
             </tr>
             </thead>
             <tbody>
-            {% if n1 == None %}
+            {% if data == None %}
                 <tr>
-                {% for i in "1234567" %}
-                    <td style="color: #ff0800">无数据</td>
-                    {% endfor %}
-                    <td></td>
+                    <td colspan="100" style="color: #ff0800;text-align: center">无数据</td>
                 </tr>
             {% else %}
-                {% for i in n1 %}
+                {% for i in data %}
                     <tr>
                     <td>{{ i.id }}</td>
                     <td>{{ i.name }}</td>
@@ -165,8 +162,18 @@
                     <form novalidate id="form">
                         {% for i in form %}
                             <div class="form-group">
-                                <label>{{ i.label }}</label>
-                                {{ i }}
+                                {% if i.label == "部门" %}
+                                    <label>{{ i.label }}</label>
+                                    {% if request.session.info.depart != manage_id %}
+                                        <input type="text" disabled name="depart" class="form-control"
+                                               id="id_depart" value="{{ depart_name }}">
+                                    {% else %}
+                                        {{ i }}
+                                    {% endif %}
+                                {% else %}
+                                    <label>{{ i.label }}</label>
+                                    {{ i }}
+                                {% endif %}
                                 <span style="color: #ac2925"></span>
                             </div>
                         {% endfor %}
@@ -174,8 +181,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="Add('user',csrftoken)">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -202,8 +209,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="update('user',csrftoken)">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

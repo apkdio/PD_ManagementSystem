@@ -49,6 +49,9 @@
                 <li><a href="/user/list/1">员工管理</a></li>
                 <li class="active"><a href="/manager">管理员账户</a></li>
                 <li><a href="/consumer/list/1">客户管理</a></li>
+                {% if  request.session.info.depart  ==  manage_id %}
+                    <li><a href="/logging/all/1/null">日志管理</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -64,13 +67,24 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
+{% if request.session.info.depart == manage_id %}
     <div style="margin-bottom: 10px">
         <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             <div style="align-items: center;display: flex">
         <span class="glyphicon glyphicon-plus-sign" style="margin-right:5px;font-size: 15px" aria-hidden="true">
         </span> 添加管理员
             </div>
-        </a></div>
+        </a>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input style="margin-top: 10px" class="form-inline" type="text" name="name"
+                       placeholder="输入姓名查询管理员"/>
+                <button style="margin-left: 10px" class="btn-primary" type="submit">查询</button>
+            </form>
+        </div>
+    </div>
+{% endif %}
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">管理员列表</div>
@@ -81,24 +95,49 @@
             <tr>
                 <th>管理员名称</th>
                 <th>管理员账户</th>
+                <th>隶属部门</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            {% for i in data %}
+            {% if data == None %}
                 <tr>
-                <td>{{ i.id }}</td>
-                <td>{{ i.name }}</td>
-                <td>
-                    {% if i.id == 1 %}
-                        <span class="text-danger">默认管理员账户，无法更改！</span>
+                    <td colspan="100" style="color: #ff0800;text-align: center">无数据</td>
+                </tr>
+            {% else %}
+                {% for i in data %}
+                    <tr>
+                    <td>{{ i.id }}</td>
+                    {% if i.name == request.session.info.name %}
+                        <td>{{ i.name }} <span style="color: #ad6704">（当前登录）</span></td>
                     {% else %}
-                        <a class="btn btn-primary" href="" onclick="manager_edit({{ i.id }}) "
-                           data-toggle="modal" data-target="#edit_modal">编辑</a>
-                        <a class="btn btn-danger" href="javascript:void(0);"
-                           onclick="confirmDelete({{ i.id }},'manager',csrftoken)">删除</a></td>
+                        <td>{{ i.name }}</td>
                     {% endif %}
-            {% endfor %}
+                    <td>{% if i.depart.title %}
+                        {{ i.depart.title }}
+                    {% else %}
+                        <span style="color: #ff0800">未设置部门</span>
+                    {% endif %}</td>
+                    <td>
+                        {% if i.name == manage_name %}
+                            <span class="text-danger">默认管理员账户，无法更改！</span>
+                        {% else %}
+                            {% if request.session.info.depart == manage_id or request.session.info.id == i.id %}
+                            <a class="btn btn-primary" href="" onclick="manager_edit({{ i.id }}) "
+                               data-toggle="modal" data-target="#edit_modal">编辑</a>
+                            <a class="btn btn-info" href="" data-toggle="modal" data-target="#reset_modal"
+                               onclick="reset_pass({{ i.id }})">重置密码</a>
+                                {% if request.session.info.depart == manage_id %}
+                            <a class="btn btn-danger" href="javascript:void(0);"
+                               onclick="confirmDelete({{ i.id }},'manager',csrftoken)">删除</a>
+                                    {% endif %}
+                                {% else %}
+                                <span style="color: #FF0008">没有权限更改！</span>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                {% endfor %}
+            {% endif %}
             </tr>
             </tbody>
         </table>
@@ -112,6 +151,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">添加管理员</h4>
             </div>
+
             <div class="modal-body">
                 <div class="modal-body">
                     <form novalidate id="form">
@@ -122,14 +162,21 @@
                                 <span style="color: #ac2925"></span>
                             </div>
                         {% endfor %}
+                        <div id="SafePassword_add" style="display: none">
+                            <label>安全密码
+                                <input type="password" class="form-control" placeholder="安全密码"
+                                       required id="id_sp_add">
+                                <span id="sp_warn_add" style="color: #ac2925"></span>
+                            </label>
+                        </div>
                     </form>
                 </div>
                 <span style="color: #ac2925"></span>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="Add()">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -152,13 +199,55 @@
                                 <span style="color: #ac2925"></span>
                             </div>
                         {% endfor %}
+                        <div id="SafePassword_edit" style="display: none">
+                            <label>安全密码
+                                <input type="password" class="form-control" placeholder="安全密码"
+                                       required id="id_sp_edit">
+                                <span id="sp_warn_edit" style="color: #ac2925"></span>
+                            </label>
+                        </div>
                     </form>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="update()">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reset_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form novalidate id="form_reset">
+                        <div id="SafePassword_reset">
+                            <label>安全密码（重置专用）
+                                <input type="password" class="form-control" placeholder="安全密码"
+                                       required id="id_sp_reset">
+                                <span id="sp_warn_reset" style="color: #ac2925"></span>
+                            </label>
+                        </div>
+                        <div id="pass_reset">
+                            <label>新密码
+                                <input type="password" class="form-control" placeholder="新密码"
+                                       required id="id_pass_reset">
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="reset_pass()">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -170,33 +259,47 @@
     function Add() {
         const form = document.getElementById("form");
         const data = new FormData(form);
-        console.log(form)
         const password = document.getElementById("id_password").value
         const confirm_password = document.getElementById("id_confirm_password").value
+        const depart = parseInt(document.getElementById("id_depart").value)
+        if (depart === {{ manage_id }}) {
+            const safe_password = document.getElementById("id_sp_add").value
+            if (safe_password === "") {
+                document.getElementById("sp_warn_add").innerHTML = "安全密码为空！"
+                return;
+            } else {
+                data.append("safe_password", safe_password)
+            }
+        }
         if (password === confirm_password) {
             fieldElement.nextElementSibling.innerHTML = ""
-                fetch('/manager/add/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrftoken,
-                    },
-                    body: data
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                            if (data.state) {
-                                alert("添加成功!");
-                                window.location.reload();
-                            } else {
-                                for (const [field, messages] of Object.entries(data.error)) {
-                                    const fieldElement = document.getElementById(`id_${field}`);
-                                    const errorSpan = fieldElement.nextElementSibling;
-                                    errorSpan.innerHTML = '';
-                                    errorSpan.innerHTML = messages;
+            fetch('/manager/add/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: data
+            })
+                .then(response => response.json())
+                .then(data => {
+                        if (data.state) {
+                            alert("添加成功!");
+                            window.location.reload();
+                        } else {
+                            for (const [field, messages] of Object.entries(data.error)) {
+                                if (field === "sp") {
+                                    document.getElementById("sp_warn_add").innerHTML = "";
+                                    document.getElementById("sp_warn_add").innerHTML = messages;
+                                    return;
                                 }
+                                const fieldElement = document.getElementById(`id_${field}`);
+                                const errorSpan = fieldElement.nextElementSibling;
+                                errorSpan.innerHTML = '';
+                                errorSpan.innerHTML = messages;
                             }
                         }
-                    )
+                    }
+                )
         } else {
             const errorSpan = fieldElement.nextElementSibling;
             errorSpan.innerHTML = "";
@@ -249,38 +352,100 @@
             new_password.nextElementSibling.innerText = "这是个必填项!"
         } else {
             if (password.value === confirm_password.value) {
-                if (new_password.value === password.value) {
-                    new_password.nextElementSibling.innerText = "新密码不能与旧密码相同!"
-                } else {
-                    const form = document.getElementById("form_edit")
-                    const data = new FormData(form)
-                    fetch("/manager/" + temp + "/edit/", {
-                        method: "POST",
-                        headers: {
-                            'X-CSRFToken': csrftoken,
-                        },
-                        body: data
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.state) {
-                                alert("修改成功!");
-                                window.location.reload();
-                            } else {
-                                for (const [field, messages] of Object.entries(data.error)) {
-                                    const fieldElement = document.querySelectorAll(`#id_${field}`)[1];
-                                    const errorSpan = fieldElement.nextElementSibling;
-                                    errorSpan.innerHTML = '';
-                                    errorSpan.innerHTML = messages;
-                                }
-                            }
-                        })
+                const form = document.getElementById("form_edit")
+                const data = new FormData(form)
+                const depart = parseInt(document.querySelectorAll("#id_depart")[1].value)
+                if (depart === {{ manage_id }}) {
+                    const safe_password = document.getElementById("id_sp_edit").value
+                    if (safe_password === "") {
+                        document.getElementById("sp_warn_edit").innerHTML = "安全密码为空！"
+                        return;
+                    } else {
+                        data.append("safe_password", safe_password)
+                    }
                 }
+                fetch("/manager/" + temp + "/edit/", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: data
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.state) {
+                            alert("修改成功!");
+                            window.location.href = data.url;
+                        } else {
+                            for (const [field, messages] of Object.entries(data.error)) {
+                                if (field === "sp") {
+                                    document.getElementById("sp_warn_edit").innerHTML = "";
+                                    document.getElementById("sp_warn_edit").innerHTML = messages;
+                                    return;
+                                }
+                                const fieldElement = document.querySelectorAll(`#id_${field}`)[1];
+                                const errorSpan = fieldElement.nextElementSibling;
+                                errorSpan.innerHTML = '';
+                                errorSpan.innerHTML = messages;
+                            }
+                        }
+                    })
+
             } else {
                 confirm_password.nextElementSibling.innerText = "两次密码不一致!"
             }
         }
     }
+
+    function reset_pass(id = null) {
+        if (id !== null) {
+            localStorage.setItem("editID", id);
+        } else {
+            id = localStorage.getItem("editID");
+            const data = new FormData;
+            const safepass = document.getElementById("id_sp_reset").value;
+            const pass_reset = document.getElementById("id_pass_reset").value;
+            data.append("sp", safepass);
+            data.append("reset_pass", pass_reset);
+            fetch("/manager/reset/" + id + "/", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                body: data
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.state) {
+                        alert("修改成功!");
+                        window.location.href = data.url;
+                        localStorage.removeItem("editID");
+                    } else {
+                        document.getElementById("sp_warn_reset").innerHTML = data.error;
+                    }
+                })
+        }
+    }
+</script>
+<script>
+    const elements = document.getElementsByName("depart");
+    elements[0].addEventListener("change", function () {
+        const dynamic = document.getElementById("SafePassword_add");
+        if (parseInt(this.value) === {{ manage_id }}) {
+            dynamic.style.display = "block";
+        } else {
+            dynamic.style.display = "none";
+        }
+    });
+    elements[1].addEventListener("change", function () {
+        const dynamic = document.getElementById("SafePassword_edit");
+        if (parseInt(this.value) === {{ manage_id }}) {
+            dynamic.style.display = "block";
+        } else {
+            dynamic.style.display = "none";
+        }
+    });
+
 </script>
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>

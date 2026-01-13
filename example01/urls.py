@@ -16,29 +16,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app03.view import departure, user, superman, login_out,consumer
+
+from app03.view import department, user, superman, login_out, consumer,logging
+
 urlpatterns = [
-    path('depart/list/', departure.depart_list),
-    path('depart/add/', departure.depart_add),
-    path('depart/<int:nid>/delete/', departure.depart_delete),
+    path('depart/list/', department.depart_list),
+    path('depart/add/', department.depart_add),
+    path('depart/<int:nid>/delete/', department.depart_delete),
     path('user/list/<int:nid>/', user.user_list),
     path('user/add/', user.user_add),
     path('user/<int:nid>/delete/', user.user_delete),
-    path('depart/<int:nid>/edit/', departure.depart_edit),
+    path('depart/<int:nid>/edit/', department.depart_edit),
     path('user/<int:nid>/edit/', user.user_edit),
     path('main/', login_out.login),
     path('manager/', superman.superman),
     path('manager/add/', superman.superman_add),
+    path('manager/reset/<int:nid>/', superman.reset_pass),
     path('manager/<int:nid>/edit/', superman.superman_edit),
     path('manager/<int:nid>/delete/', superman.superman_delete),
-    path('code/img/', login_out.image_code,name="code"),
+    path('code/img/', login_out.image_code, name="code"),
     path('logout/', login_out.logout),
     path('consumer/list/<int:nid>/', consumer.consumer_list),
     path('consumer/add/', consumer.consumer_add),
     path('consumer/<int:nid>/delete/', consumer.consumer_delete),
     path('consumer/<int:nid>/edit/', consumer.consumer_edit),
-    path('admin/', admin.site.urls),
-    # <int:nid>为正则表达,请求网址必须为.../depart/1(2)(3)/edit/才会响应
+    path('depart/master/', department.master_set),
+    path('depart/master/<int:nid>/', department.master_set),
+    path('logging/<str:string>/<int:nid>/<str:name>', logging.log),
+    path('admin/', admin.site.urls)
 ]
-
-

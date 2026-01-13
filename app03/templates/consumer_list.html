@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>客户列表</title>
     <link rel="stylesheet" href="{% static 'plupins/bootstrap-3.4.1-dist/css/bootstrap.css' %}">
-    {% csrf_token %}
     <script src="{% static 'js/common.js' %}"></script>
     <script>
         // 通过 JavaScript 获取 CSRF 令牌
@@ -25,8 +24,8 @@
         }
 
         const csrftoken = getCookie('csrftoken');
-        const msg = {{ error }};
     </script>
+    {% csrf_token %}
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -51,6 +50,9 @@
                 <li><a href="/user/list/1">员工管理</a></li>
                 <li><a href="/manager">管理员账户</a></li>
                 <li class="active"><a href="/consumer/list/1">客户管理</a></li>
+                {% if  request.session.info.depart  ==  manage_id %}
+                    <li><a href="/logging/all/1/null">日志管理</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -94,30 +96,34 @@
                 <th>客户姓名</th>
                 <th>电话</th>
                 <th>余额</th>
+                <th>负责员工</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            {% if n1 == None %}
-            <tr>
-            {% for i in "1234" %}
-                <td style="color: #ff0800">无数据</td>
-                {% endfor %}
-                <td></td>
-            </tr>
-            {% else %}
-            {% for i in n1 %}
+            {% if data == None %}
                 <tr>
-                <td>{{ i.id }}</td>
-                <td>{{ i.name }}</td>
-                <td>{{ i.number }}</td>
-                <td>{{ i.money }}</td>
-                <td>
-                    <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer',csrftoken)"
-                       data-toggle="modal" data-target="#edit_modal">编辑</a>
-                    <a class="btn btn-danger" href="javascript:void(0);"
-                       onclick="confirmDelete({{ i.id }},'consumer',csrftoken)">删除</a></td>
-            {% endfor %}
+                    <td colspan="100" style="color: #ff0800;text-align: center">无数据</td>
+                </tr>
+            {% else %}
+                {% for i in data %}
+                    <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.number }}</td>
+                    <td>{{ i.money }}</td>
+                    {% if i.president == None %}
+                        <td style="color: #ff0800;">未安排</td>
+                    {% else %}
+                        <td>{{ i.president }}</td>
+                    {% endif %}
+
+                    <td>
+                        <a class="btn btn-primary" href="" onclick="edit_data({{ i.id }},'consumer',csrftoken)"
+                           data-toggle="modal" data-target="#edit_modal">编辑</a>
+                        <a class="btn btn-danger" href="javascript:void(0);"
+                           onclick="confirmDelete({{ i.id }},'consumer',csrftoken)">删除</a></td>
+                {% endfor %}
             {% endif %}
             </tr>
             </tbody>
@@ -157,8 +163,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="Add('consumer',csrftoken)">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -185,8 +191,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="update('consumer',csrftoken)">保存</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -194,6 +200,5 @@
 <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
 <!-- bootstrap版本要和jQuery版本兼容-->
 <script src="{% static 'plupins/bootstrap-3.4.1-dist/js/bootstrap.js' %}"></script>
-
 </body>
 </html>

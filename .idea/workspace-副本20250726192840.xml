@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1d7bfd91-702e-4e2a-b2f3-e059614626b0" name="更改" comment="v1.0.6 重写没有员工数据时的逻辑与页面">
+      <change afterPath="$PROJECT_DIR$/app03/templates/logging.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app03/view/department.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/middle_things/img_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/middle_things/img_code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/middle_things/session_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/middle_things/session_set.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/migrations/0002_consumer_alter_supermanager_name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/migrations/0003_alter_consumer_money_alter_consumer_number_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/view/logging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/templates/User_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app03/templates/User_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/templates/consumer_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app03/templates/consumer_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/templates/depart_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app03/templates/depart_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/templates/error.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/templates/manager.html" beforeDir="false" afterPath="$PROJECT_DIR$/app03/templates/manager.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/view/consumer.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/view/consumer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/view/departure.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/view/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/view/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/view/login_out.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/view/login_out.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/view/superman.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/view/superman.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app03/view/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app03/view/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example01/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example01/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example01/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/example01/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-grid.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-reboot.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap-utilities.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/css/bootstrap.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.bundle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.bundle.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.bundle.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.esm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.esm.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.esm.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.esm.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plupins/bootstrap-5/js/bootstrap.min.js.map" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/../Git" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Django_pro" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2YWm7LqxeQljUVuSKAD1fEaRsM9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django 服务器.example01.executor&quot;: &quot;Run&quot;,
+    &quot;Django 测试.Test: app03.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript 调试.User_add.html.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript 调试.login.html.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript 调试.superman_add.html.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WiFi密码获取.executor&quot;: &quot;Run&quot;,
+    &quot;Python.justice.executor&quot;: &quot;Run&quot;,
+    &quot;Python.login_out.executor&quot;: &quot;Run&quot;,
+    &quot;Python.models.executor&quot;: &quot;Coverage&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/PycharmProjects/example01/static/js&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: []
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\static\js" />
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\app03\view" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\app03\templates\trash_templates" />
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\app03\templates" />
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\trash_templates" />
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\static\plupins" />
+      <recent name="C:\Users\Administrator\PycharmProjects\example01\app03\middle_things" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Django 服务器.example01">
+    <configuration name="Test: app03" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="example01" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="app03" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="User_add.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/example01/app03/templates/trash_templates/User_add.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="login.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/example01/app03/templates/login.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="superman_add.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/example01/app03/templates/trash_templates/superman_add.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="models" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="example01" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app03" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app03/models.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="example01" type="Python.DjangoServer" factoryName="Django server">
+      <module name="example01" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="example01.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.models" />
+        <item itemvalue="JavaScript 调试.login.html" />
+        <item itemvalue="JavaScript 调试.User_add.html" />
+        <item itemvalue="JavaScript 调试.superman_add.html" />
+        <item itemvalue="Django 测试.Test: app03" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.19416.19" />
+        <option value="bundled-python-sdk-337b0a7a993a-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.19416.19" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="1d7bfd91-702e-4e2a-b2f3-e059614626b0" name="更改" comment="" />
+      <created>1700649541955</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700649541955</updated>
+      <workItem from="1700649543661" duration="751000" />
+      <workItem from="1700735672086" duration="6944000" />
+      <workItem from="1700751113662" duration="5000" />
+      <workItem from="1701161385513" duration="8000" />
+      <workItem from="1701164619732" duration="6000" />
+      <workItem from="1701164667896" duration="698000" />
+      <workItem from="1701171514216" duration="2000" />
+      <workItem from="1701255053087" duration="5000" />
+      <workItem from="1701258459376" duration="6264000" />
+      <workItem from="1701340598120" duration="128000" />
+      <workItem from="1701341664736" duration="2245000" />
+      <workItem from="1701344221697" duration="197000" />
+      <workItem from="1701344440387" duration="3303000" />
+      <workItem from="1701347755896" duration="2073000" />
+      <workItem from="1701411208751" duration="609000" />
+      <workItem from="1701773076789" duration="2714000" />
+      <workItem from="1701776230526" duration="4511000" />
+      <workItem from="1701859172973" duration="9700000" />
+      <workItem from="1701945301791" duration="1480000" />
+      <workItem from="1701949163271" duration="9000" />
+      <workItem from="1701949390157" duration="598000" />
+      <workItem from="1701950363551" duration="4000" />
+      <workItem from="1702301055374" duration="3572000" />
+      <workItem from="1702377279132" duration="6960000" />
+      <workItem from="1702463653431" duration="6522000" />
+      <workItem from="1702471427023" duration="42000" />
+      <workItem from="1702471478508" duration="60000" />
+      <workItem from="1702471552453" duration="45000" />
+      <workItem from="1702471607919" duration="678000" />
+      <workItem from="1702475550410" duration="3487000" />
+      <workItem from="1702480040205" duration="1295000" />
+      <workItem from="1702481892679" duration="1012000" />
+      <workItem from="1702554603567" duration="6987000" />
+      <workItem from="1702562422940" duration="996000" />
+      <workItem from="1702622838931" duration="5673000" />
+      <workItem from="1702628786600" duration="55000" />
+      <workItem from="1702628930463" duration="155000" />
+      <workItem from="1702814159911" duration="2500000" />
+      <workItem from="1702816669578" duration="10027000" />
+      <workItem from="1702829340494" duration="555000" />
+      <workItem from="1702880560991" duration="4673000" />
+      <workItem from="1702912039068" duration="1235000" />
+      <workItem from="1702913287677" duration="14000" />
+      <workItem from="1702973786584" duration="5274000" />
+      <workItem from="1702982334856" duration="3616000" />
+      <workItem from="1703064865819" duration="11447000" />
+      <workItem from="1703156213985" duration="13199000" />
+      <workItem from="1703171280253" duration="68000" />
+      <workItem from="1703259101114" duration="79000" />
+      <workItem from="1703259200182" duration="21000" />
+      <workItem from="1703388852867" duration="10807000" />
+      <workItem from="1703402606506" duration="1387000" />
+      <workItem from="1703417345969" duration="4146000" />
+      <workItem from="1703422720614" duration="11525000" />
+      <workItem from="1703478176956" duration="2410000" />
+      <workItem from="1703496791025" duration="1235000" />
+      <workItem from="1703503745386" duration="626000" />
+      <workItem from="1703510265640" duration="26000" />
+      <workItem from="1703510867848" duration="5376000" />
+      <workItem from="1703590894547" duration="119000" />
+      <workItem from="1703591030440" duration="903000" />
+      <workItem from="1703593710482" duration="5000" />
+      <workItem from="1703597707569" duration="78000" />
+      <workItem from="1704030067341" duration="5090000" />
+      <workItem from="1704108191030" duration="607000" />
+      <workItem from="1704424363188" duration="102000" />
+      <workItem from="1704612658201" duration="603000" />
+      <workItem from="1704941357621" duration="73000" />
+      <workItem from="1704943288595" duration="316000" />
+      <workItem from="1704955614220" duration="1389000" />
+      <workItem from="1704958121860" duration="42000" />
+      <workItem from="1704973517318" duration="852000" />
+      <workItem from="1704975688250" duration="6000" />
+      <workItem from="1705149316993" duration="37000" />
+      <workItem from="1705402124934" duration="101000" />
+      <workItem from="1705479195721" duration="4000" />
+      <workItem from="1706097387492" duration="24000" />
+      <workItem from="1706182598286" duration="203000" />
+      <workItem from="1706183070893" duration="30000" />
+      <workItem from="1706183667939" duration="1739000" />
+      <workItem from="1708071205466" duration="154000" />
+      <workItem from="1711198483872" duration="42000" />
+      <workItem from="1720423339486" duration="1752000" />
+      <workItem from="1720425121589" duration="6294000" />
+      <workItem from="1720431460651" duration="551000" />
+      <workItem from="1720606748583" duration="21000" />
+      <workItem from="1720606825583" duration="28000" />
+      <workItem from="1720606877570" duration="1051000" />
+      <workItem from="1721108249091" duration="3123000" />
+      <workItem from="1721113216800" duration="550000" />
+      <workItem from="1721113841777" duration="2436000" />
+      <workItem from="1721117106933" duration="314000" />
+      <workItem from="1721122549270" duration="232000" />
+      <workItem from="1721122812359" duration="152000" />
+      <workItem from="1721297625731" duration="125000" />
+      <workItem from="1721360423699" duration="1250000" />
+      <workItem from="1721381570302" duration="3749000" />
+      <workItem from="1721437324435" duration="239000" />
+      <workItem from="1721437919518" duration="474000" />
+      <workItem from="1721441438668" duration="431000" />
+      <workItem from="1721442134505" duration="8009000" />
+      <workItem from="1721466052345" duration="3380000" />
+      <workItem from="1721553846123" duration="10095000" />
+      <workItem from="1721615053477" duration="9000" />
+      <workItem from="1721618690806" duration="6730000" />
+      <workItem from="1721625619460" duration="2529000" />
+      <workItem from="1721639022095" duration="9809000" />
+      <workItem from="1721700030382" duration="13000" />
+      <workItem from="1721722124468" duration="9658000" />
+      <workItem from="1721787675284" duration="10000" />
+      <workItem from="1721809847259" duration="9386000" />
+      <workItem from="1721819429853" duration="480000" />
+      <workItem from="1721866969863" duration="3178000" />
+      <workItem from="1721871613320" duration="76000" />
+      <workItem from="1721872383444" duration="8000" />
+      <workItem from="1721873797681" duration="347000" />
+      <workItem from="1721874175619" duration="748000" />
+      <workItem from="1721874937167" duration="855000" />
+      <workItem from="1721880588545" duration="1063000" />
+      <workItem from="1721896129982" duration="306000" />
+      <workItem from="1721896787280" duration="951000" />
+      <workItem from="1721985427891" duration="695000" />
+      <workItem from="1722047426128" duration="6000" />
+      <workItem from="1740526630159" duration="208000" />
+      <workItem from="1740531993090" duration="138000" />
+      <workItem from="1740532233769" duration="473000" />
+      <workItem from="1740538705768" duration="7000" />
+      <workItem from="1742258153285" duration="739000" />
+      <workItem from="1742270194909" duration="7000" />
+      <workItem from="1742342665405" duration="1448000" />
+      <workItem from="1742344621792" duration="3471000" />
+      <workItem from="1742361753102" duration="79000" />
+      <workItem from="1742696000747" duration="4175000" />
+      <workItem from="1742819838972" duration="322000" />
+      <workItem from="1743221343778" duration="197000" />
+      <workItem from="1743227882679" duration="1118000" />
+      <workItem from="1743229627213" duration="2206000" />
+      <workItem from="1744105922433" duration="12000" />
+      <workItem from="1744341197577" duration="184000" />
+      <workItem from="1744342210233" duration="2000" />
+      <workItem from="1744714948306" duration="9574000" />
+      <workItem from="1745023211442" duration="19520000" />
+      <workItem from="1745114810989" duration="9656000" />
+      <workItem from="1745235165134" duration="1760000" />
+      <workItem from="1745311841986" duration="4396000" />
+      <workItem from="1745318953243" duration="8184000" />
+      <workItem from="1745327753398" duration="49000" />
+      <workItem from="1745333375800" duration="4102000" />
+      <workItem from="1745371735923" duration="8193000" />
+      <workItem from="1745477777127" duration="4551000" />
+      <workItem from="1745492995409" duration="64000" />
+      <workItem from="1745493183503" duration="1019000" />
+      <workItem from="1745667640364" duration="151000" />
+      <workItem from="1745713431483" duration="5199000" />
+      <workItem from="1745718831351" duration="155000" />
+      <workItem from="1745719553525" duration="23000" />
+      <workItem from="1745719904924" duration="1016000" />
+      <workItem from="1745722757796" duration="1828000" />
+      <workItem from="1745739591113" duration="1980000" />
+      <workItem from="1745742652144" duration="1120000" />
+      <workItem from="1745759468412" duration="28000" />
+      <workItem from="1746839455110" duration="19000" />
+      <workItem from="1747102898189" duration="1808000" />
+      <workItem from="1747111585352" duration="186000" />
+      <workItem from="1747150273805" duration="247000" />
+      <workItem from="1747182343326" duration="68000" />
+      <workItem from="1747182663690" duration="38000" />
+      <workItem from="1747182817522" duration="22000" />
+      <workItem from="1747271253141" duration="4032000" />
+      <workItem from="1747276914173" duration="1685000" />
+      <workItem from="1747279242074" duration="65000" />
+      <workItem from="1747492911137" duration="301000" />
+      <workItem from="1747656011119" duration="662000" />
+      <workItem from="1748048461816" duration="4905000" />
+      <workItem from="1748093855331" duration="99000" />
+      <workItem from="1750221340581" duration="164000" />
+      <workItem from="1750298963005" duration="885000" />
+      <workItem from="1750382864749" duration="8083000" />
+      <workItem from="1750669859531" duration="1182000" />
+      <workItem from="1753417352495" duration="34000" />
+    </task>
+    <task id="LOCAL-00001" summary="v1.0">
+      <option name="closed" value="true" />
+      <created>1721874876197</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721874876197</updated>
+    </task>
+    <task id="LOCAL-00002" summary="增加了一个print">
+      <option name="closed" value="true" />
+      <created>1721882234993</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1721882234993</updated>
+    </task>
+    <task id="LOCAL-00003" summary="针对departure_add做后端二次验证">
+      <option name="closed" value="true" />
+      <created>1721896361898</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1721896361898</updated>
+    </task>
+    <task id="LOCAL-00004" summary="v1.0.1 针对departure_add做后端二次验证">
+      <option name="closed" value="true" />
+      <created>1721896866976</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721896866976</updated>
+    </task>
+    <task id="LOCAL-00005" summary="v1.0.2 优化了部分代码">
+      <option name="closed" value="true" />
+      <created>1742344103684</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1742344103684</updated>
+    </task>
+    <task id="LOCAL-00006" summary="v1.0.3 解决csrf验证问题">
+      <option name="closed" value="true" />
+      <created>1742348098745</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742348098745</updated>
+    </task>
+    <task id="LOCAL-00007" summary="v1.0.4 规范表名">
+      <option name="closed" value="true" />
+      <created>1742696938290</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1742696938290</updated>
+    </task>
+    <task id="LOCAL-00008" summary="v1.0.5 优化默认账户的创建">
+      <option name="closed" value="true" />
+      <created>1742820107263</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1742820107263</updated>
+    </task>
+    <task id="LOCAL-00009" summary="v1.0.6 重写没有员工数据时的逻辑与页面">
+      <option name="closed" value="true" />
+      <created>1743231649494</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1743231649494</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="38" />
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="36" />
+                  <entry key="Table.GitHub.CommitStatus.ColumnIdWidth" value="41" />
+                  <entry key="Table.Space.CommitStatus.ColumnIdWidth" value="42" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
+    <MESSAGE value="v1.0" />
+    <MESSAGE value="增加了一个print" />
+    <MESSAGE value="v1.0.1 针对departure_add做后端二次验证" />
+    <MESSAGE value="v1.0.1 针对departure_add做后端二次验证" />
+    <MESSAGE value="v1.0.2 优化了部分代码" />
+    <MESSAGE value="v1.0.3 解决csrf验证问题" />
+    <MESSAGE value="v1.0.4 规范表名" />
+    <MESSAGE value="v1.0.5 优化默认账户的创建" />
+    <MESSAGE value="v1.0.6 重写没有员工数据时的逻辑与页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.0.6 重写没有员工数据时的逻辑与页面" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/example01$WiFi.coverage" NAME="WiFi密码获取 覆盖结果" MODIFIED="1703404594249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/360极速浏览器X下载" />
+    <SUITE FILE_PATH="coverage/example01$justice.coverage" NAME="justice 覆盖结果" MODIFIED="1703418901482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app03/middle_things" />
+    <SUITE FILE_PATH="coverage/example01$login_out.coverage" NAME="login_out 覆盖结果" MODIFIED="1720424695732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app03/view" />
+    <SUITE FILE_PATH="coverage/example01$Test__app03.coverage" NAME="Test: app03 覆盖结果" MODIFIED="1721382783455" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+  </component>
+</project>

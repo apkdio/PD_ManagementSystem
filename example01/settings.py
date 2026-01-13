@@ -38,7 +38,7 @@ MIDDLEWARE = [
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Application definition
 
@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -124,9 +124,18 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+INITIAL_SETTING = {
+    "user": "admin",
+    "password": "admin",
+    "depart_id": 1,  # 必须选择大于0的值
+    "depart_name": "管理员",
+    "safe_password": "123456",
+    "normal_safe_password": "12345"
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://frp-net.top:44189',"http://127.0.0.1:11434" ]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:11434"]

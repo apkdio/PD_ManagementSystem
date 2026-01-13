@@ -48,7 +48,6 @@ function Add(url, csrftoken) {
 }
 
 function clearSpanContent() {
-    console.log(123)
     const spans = document.querySelectorAll('#edit_input span');
     const spans_1 = document.querySelectorAll('#form span');
     spans.forEach(span => {
@@ -60,9 +59,9 @@ function clearSpanContent() {
 }
 
 {
-    temp = null;
 
-    function edit_data(id, url,csrftoken) {
+    function edit_data(id, url, csrftoken) {
+        localStorage.setItem("editID", id);
         fetch("/" + url + "/" + id + "/edit/", {
             method: "GET",
             headers: {
@@ -81,20 +80,22 @@ function clearSpanContent() {
             })
     }
 
-    function update(url,csrftoken) {
+    function update(url, csrftoken) {
+        id = localStorage.getItem("editID");
         const tar = document.getElementById("edit_input");
         const data = new FormData(tar);
         fetch("/" + url + "/" + id + "/edit/", {
             method: "POST",
             headers: {
-            'X-CSRFToken': csrftoken,  // 在请求头中添加 CSRF 令牌
-        },
+                'X-CSRFToken': csrftoken,  // 在请求头中添加 CSRF 令牌
+            },
             body: data
         })
             .then(response => response.json())
             .then(data => {
                 if (data.state) {
                     alert("修改成功!");
+                    localStorage.removeItem("editID");
                     window.location.reload();
                 } else {
                     for (const [field, messages] of Object.entries(data.error)) {
